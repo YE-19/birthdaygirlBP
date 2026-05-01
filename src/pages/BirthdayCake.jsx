@@ -1,0 +1,316 @@
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
+import { useNavigate } from 'react-router-dom';
+
+// ── Decorative Garland Component ──
+const Garland = () => (
+  <div className="absolute top-0 left-0 w-full flex justify-around pointer-events-none overflow-hidden h-32 z-20">
+    {[...Array(12)].map((_, i) => (
+      <motion.div
+        key={i}
+        initial={{ y: -50, rotate: -10 }}
+        animate={{ y: 0, rotate: i % 2 === 0 ? 10 : -10 }}
+        transition={{
+          type: 'spring',
+          stiffness: 100,
+          delay: i * 0.1,
+          repeat: Infinity,
+          repeatType: 'reverse',
+          duration: 2,
+        }}
+        className={`w-6 h-10 shadow-md ${
+          i % 3 === 0
+            ? 'bg-pink-500 shadow-pink-900'
+            : i % 3 === 1
+            ? 'bg-fuchsia-600 shadow-fuchsia-900'
+            : 'bg-rose-500 shadow-rose-900'
+        }`}
+        style={{ clipPath: 'polygon(0% 0%, 100% 0%, 50% 100%)' }}
+      />
+    ))}
+    {/* Garland string */}
+    <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-pink-500 via-fuchsia-500 to-rose-500 opacity-60" />
+  </div>
+);
+
+const GirlyBirthdayCake = () => {
+  const [isLit, setIsLit] = useState(true);
+  const navigate = useNavigate();
+
+  const handleSurprise = () => {
+    setIsLit(false);
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#e879f9', '#ffffff', '#fbbf24', '#fb7185'],
+    });
+  };
+
+  return (
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-center bg-zinc-950 overflow-hidden font-sans">
+
+      {/* ── Ambient Glow Orbs ── */}
+      <div className="absolute top-[-10%] left-[-8%] w-80 h-80 bg-pink-600 rounded-full blur-[140px] opacity-15 pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-8%] w-96 h-96 bg-fuchsia-700 rounded-full blur-[160px] opacity-15 pointer-events-none" />
+
+      {/* Candle warm glow — only visible when lit */}
+      <AnimatePresence>
+        {isLit && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="absolute top-[18%] left-1/2 -translate-x-1/2 w-64 h-64 bg-amber-400 rounded-full blur-[100px] opacity-20 pointer-events-none"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Grid overlay ── */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* ── Corner Ornaments ── */}
+      <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-pink-500/50 rounded-tl-sm" />
+      <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-pink-500/50 rounded-tr-sm" />
+      <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-pink-500/50 rounded-bl-sm" />
+      <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-pink-500/50 rounded-br-sm" />
+
+      {/* ── Top Edge Bar ── */}
+      <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-fuchsia-500 via-pink-500 to-rose-500" />
+
+      {/* ── Floating Particles ── */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(14)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ y: 0, opacity: 0 }}
+            animate={{ y: [0, -(40 + Math.random() * 60)], opacity: [0, 0.6, 0] }}
+            transition={{
+              duration: 5 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 7,
+              ease: 'easeOut',
+            }}
+            className="absolute rounded-full"
+            style={{
+              top: `${30 + Math.random() * 60}%`,
+              left: `${5 + Math.random() * 90}%`,
+              width: `${2 + Math.random() * 3}px`,
+              height: `${2 + Math.random() * 3}px`,
+              background: i % 2 === 0 ? '#f472b6' : '#e879f9',
+            }}
+          />
+        ))}
+      </div>
+
+      <Garland />
+
+      {/* ── Bottom Edge Bar ── */}
+      <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-rose-500 via-pink-500 to-fuchsia-500 z-10" />
+
+      {/* ── Main Layout ── */}
+      <div className="relative z-10 flex flex-col items-center mt-20 px-4">
+
+        {/* ── Candle ── */}
+        <div className="relative flex flex-col items-center mb-[-4px] z-50">
+          {/* Flame */}
+          <AnimatePresence>
+            {isLit && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{
+                  opacity: 1,
+                  scale: [1, 1.15, 1],
+                  y: [0, -4, 0],
+                  rotateZ: [0, 3, -3, 0],
+                }}
+                exit={{ opacity: 0, scale: 0 }}
+                transition={{
+                  scale: { repeat: Infinity, duration: 0.7 },
+                  y: { repeat: Infinity, duration: 0.7 },
+                  rotateZ: { repeat: Infinity, duration: 1.2 },
+                }}
+                className="absolute -top-12 flex flex-col items-center"
+              >
+                {/* Outer glow halo */}
+                <div className="absolute w-8 h-8 rounded-full bg-amber-400 blur-md opacity-60" />
+                {/* Flame shape */}
+                <div
+                  className="relative w-5 h-9 z-10"
+                  style={{
+                    background: 'radial-gradient(ellipse at 50% 80%, #fff 5%, #fde68a 30%, #f59e0b 65%, #ea580c 100%)',
+                    borderRadius: '50% 50% 30% 30% / 60% 60% 40% 40%',
+                    clipPath: 'ellipse(50% 100% at 50% 100%)',
+                  }}
+                />
+                {/* Inner bright core */}
+                <div className="absolute bottom-1 w-2 h-3 bg-white rounded-full blur-[1px] opacity-80" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Candle Stick — dark stripe + pink */}
+          <div className="w-4 h-14 rounded-t-sm overflow-hidden flex flex-col shadow-lg shadow-pink-900/40">
+            {[...Array(7)].map((_, i) => (
+              <div
+                key={i}
+                className={`flex-1 ${i % 2 === 0 ? 'bg-pink-500' : 'bg-zinc-800'}`}
+              />
+            ))}
+          </div>
+          {/* Wax drip */}
+          <div className="w-5 h-2 bg-pink-400 rounded-full -mt-1 blur-[1px] opacity-70" />
+        </div>
+
+        {/* ── Tier 1 — Top (Dark Champagne) ── */}
+        <div className="w-40 h-16 bg-zinc-800 rounded-t-2xl shadow-inner relative z-30 border border-zinc-700">
+          {/* Pink frosting drips */}
+          <div className="absolute -bottom-2 flex w-full justify-around px-1">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className="w-7 h-6 bg-pink-500 rounded-full -mt-1 shadow-sm shadow-pink-900"
+              />
+            ))}
+          </div>
+          {/* Heart dots */}
+          <div className="flex justify-center items-center h-full gap-4 pt-1">
+            <span className="text-pink-400 text-xs">♥</span>
+            <span className="text-fuchsia-400 text-xs">♥</span>
+            <span className="text-pink-400 text-xs">♥</span>
+          </div>
+        </div>
+
+        {/* ── Tier 2 — Middle (Deep Pink) ── */}
+        <div className="w-56 h-20 bg-pink-900 rounded-t-3xl shadow-inner -mt-2 relative z-20 border-b-4 border-pink-800">
+          {/* Frosting drips */}
+          <div className="absolute -bottom-3 flex w-full justify-around px-1">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="w-7 h-7 bg-pink-500 rounded-full shadow-sm shadow-pink-900"
+              />
+            ))}
+          </div>
+          {/* Star accents */}
+          <div className="flex justify-center items-center h-full gap-5 opacity-50">
+            <span className="text-pink-300 text-lg">✦</span>
+            <span className="text-fuchsia-300 text-lg">✦</span>
+            <span className="text-pink-300 text-lg">✦</span>
+          </div>
+        </div>
+
+        {/* ── Tier 3 — Base (Darkest / Richest) ── */}
+        <div className="w-72 h-28 bg-zinc-900 rounded-t-[2.5rem] shadow-2xl -mt-2 relative z-10 border border-zinc-700 border-b-8 border-b-pink-800">
+          {/* Pink glowing ring band */}
+          <div className="absolute bottom-5 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-60" />
+          {/* Subtle dot detail */}
+          <div className="absolute inset-0 flex items-center justify-around px-8 opacity-10">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="w-4 h-4 bg-pink-400 rounded-full" />
+            ))}
+          </div>
+          {/* Side glow highlight */}
+          <div className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-transparent via-pink-500 to-transparent opacity-30 rounded-full" />
+          <div className="absolute right-0 top-2 bottom-2 w-1 bg-gradient-to-b from-transparent via-pink-500 to-transparent opacity-30 rounded-full" />
+        </div>
+
+        {/* ── Base Plate ── */}
+        <div className="w-80 h-4 bg-zinc-800 rounded-full -mt-1 shadow-2xl shadow-black border border-zinc-700 relative">
+          <div className="absolute inset-x-4 top-1 h-[1px] bg-gradient-to-r from-transparent via-pink-500/40 to-transparent" />
+        </div>
+
+        {/* ── Table Surface Line ── */}
+        <div className="w-96 h-[2px] bg-gradient-to-r from-transparent via-zinc-700 to-transparent mt-1" />
+      </div>
+
+      {/* ── Text & Controls ── */}
+      <div className="mt-12 text-center z-20 flex flex-col items-center px-4">
+
+        {/* Thin accent line */}
+        <div className="w-12 h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent mb-5" />
+
+        <motion.h2
+          animate={{ y: [0, -5, 0] }}
+          transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+          className="text-2xl md:text-3xl font-serif italic mb-8 drop-shadow-sm"
+        >
+          {isLit ? (
+            <span className="text-zinc-100">
+              Make a wish,{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-fuchsia-400">
+                Princess
+              </span>{' '}
+              👑
+            </span>
+          ) : (
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-400 to-rose-400">
+              Happy Birthday, Beautiful! 🎂
+            </span>
+          )}
+        </motion.h2>
+
+        {/* Main Action Button */}
+        <motion.button
+          whileHover={{
+            scale: 1.05,
+            boxShadow: isLit
+              ? '0 0 36px rgba(236, 72, 153, 0.5)'
+              : '0 0 36px rgba(251, 191, 36, 0.4)',
+          }}
+          whileTap={{ scale: 0.95 }}
+          onClick={isLit ? handleSurprise : () => setIsLit(true)}
+          className={`relative group inline-flex items-center gap-2 px-14 py-4 rounded-full font-semibold text-lg text-white transition-all shadow-xl overflow-hidden ${
+            isLit
+              ? 'bg-pink-500 hover:bg-pink-400 shadow-pink-900/60'
+              : 'bg-amber-500 hover:bg-amber-400 shadow-amber-900/60'
+          }`}
+        >
+          {/* Shimmer sweep */}
+          <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+          <span className="relative">
+            {isLit ? 'Blow the Candle 🌸' : 'Light it Again ✨'}
+          </span>
+        </motion.button>
+
+        {/* Secret Letter Button */}
+        <AnimatePresence>
+          {!isLit && (
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1 }}
+              onClick={() => navigate('/letter')}
+              className="relative mt-7 group flex flex-col items-center gap-1"
+            >
+              {/* Glow pulse behind */}
+              <span className="absolute inset-0 rounded-full bg-pink-500 blur-md opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
+              <span className="relative text-pink-400 group-hover:text-pink-300 text-sm font-medium tracking-widest uppercase transition-colors duration-300">
+                You have a secret letter
+              </span>
+              <span className="relative flex items-center gap-2 text-zinc-400 group-hover:text-zinc-300 text-xs transition-colors">
+                <span className="h-px w-8 bg-gradient-to-r from-transparent to-pink-500/50" />
+                Click to read 💌
+                <span className="h-px w-8 bg-gradient-to-l from-transparent to-pink-500/50" />
+              </span>
+            </motion.button>
+          )}
+        </AnimatePresence>
+
+        {/* Thin accent line */}
+        <div className="w-12 h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent mt-8" />
+      </div>
+    </div>
+  );
+};
+
+export default GirlyBirthdayCake;
