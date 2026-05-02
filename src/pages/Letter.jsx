@@ -174,7 +174,7 @@ const Letter = () => {
                     With all my love,
                   </span>
                   <span className="font-serif italic text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-fuchsia-400">
-                    Name ✨
+                    Menna ✨
                   </span>
                 </div>
 
