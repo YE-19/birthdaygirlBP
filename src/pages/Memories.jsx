@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import { useNavigate } from 'react-router-dom';
 import photo1 from '../assets/photo1.jpg';
-import photo2 from '../assets/photo2.jpg';
-import photo3 from '../assets/photo3.jpg';
-import photo4 from '../assets/photo4.jpg';
+import photo2 from '../assets/photo2.jpeg';
+import photo3 from '../assets/photo3.jpeg';
+import photo4 from '../assets/photo4.jpeg';
 
 const Memories = () => {
   const [selected, setSelected] = useState(null);
 
-  // شيلنا خصائص الدوران (rotation) والميل عشان الصور تبقى مستقيمة تماماً
   const photos = [
     {
       id: 1,
@@ -36,6 +35,9 @@ const Memories = () => {
       date: "Forever in my heart 👑",
     },
   ];
+
+
+  const navigate = useNavigate();
 
   return (
     // منع السكرول نهائياً وتثبيت الشاشة
@@ -160,7 +162,26 @@ const Memories = () => {
         </p>
       </motion.div>
 
-      {/* ════════════════════════════════
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5 }}
+        className="pt-4 md:pt-6 flex justify-center pb-2"
+      >
+        <button
+          onClick={() => navigate('/vid')}
+          className="relative group cursor-pointer inline-flex items-center gap-2 md:gap-3 bg-pink-500 hover:bg-pink-400 text-white px-8 py-3 md:px-10 md:py-4 rounded-full font-semibold text-sm md:text-base tracking-wide transition-all duration-300 shadow-lg shadow-pink-900/50 overflow-hidden"
+          style={{ boxShadow: '0 0 0 0 rgba(236,72,153,0.4)' }}
+          onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 28px rgba(236,72,153,0.45)'}
+          onMouseLeave={e => e.currentTarget.style.boxShadow = '0 0 0 0 rgba(236,72,153,0.4)'}
+        >
+          <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+          <span className="relative">See your last surprise</span>
+          <span className="relative text-base md:text-lg transition-transform group-hover:translate-x-1 duration-300">→</span>
+        </button>
+      </motion.div>
+
+{/* ════════════════════════════════
           LIGHTBOX MODAL
           ════════════════════════════════ */}
       <AnimatePresence>
@@ -172,7 +193,7 @@ const Memories = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
             onClick={() => setSelected(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 touch-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 touch-auto"
           >
             <motion.div
               key="lightbox-card"
@@ -181,45 +202,42 @@ const Memories = () => {
               exit={{ opacity: 0, scale: 0.88, y: 24 }}
               transition={{ duration: 0.45, ease: 'easeOut' }}
               onClick={e => e.stopPropagation()}
-              // تأمين الارتفاع عشان الموبايلات الصغيرة
-              className="relative w-full max-w-lg max-h-[90dvh] flex flex-col rounded-2xl overflow-hidden shadow-2xl shadow-black/80"
+              // كبرنا العرض هنا لـ max-w-xl أو max-w-2xl عشان ياخد مساحة أكبر
+              className="relative w-full max-w-2xl max-h-[95dvh] flex flex-col rounded-2xl overflow-hidden shadow-2xl shadow-black/80"
             >
               <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-pink-500/40 via-fuchsia-500/20 to-rose-500/40 blur-sm" />
 
               <div className="relative bg-zinc-900 border border-zinc-700/80 rounded-2xl overflow-y-auto custom-scrollbar flex flex-col">
                 <div className="w-full h-[3px] bg-gradient-to-r from-fuchsia-500 via-pink-400 to-rose-500 shrink-0" />
 
-                <div className="w-full h-48 sm:h-56 md:h-72 overflow-hidden relative shrink-0">
+                {/* كبرنا الارتفاع جداً واستخدمنا vh عشان ياخد نسبة من طول الشاشة */}
+                <div className="w-full h-[45vh] sm:h-[55vh] md:h-[65vh] overflow-hidden relative shrink-0 bg-black flex items-center justify-center">
                   <img
                     src={selected.url}
                     alt={`Memory ${selected.id}`}
-                    className="w-full h-full object-cover"
+                    // غيرنا cover لـ contain عشان الصورة تظهر بالكامل من غير قص
+                    className="w-full h-full object-contain"
                   />
-                  <div className="absolute bottom-0 left-0 w-full h-16 md:h-20 bg-gradient-to-t from-zinc-900 to-transparent" />
+                  {/* شادو خفيف من تحت عشان يدمج الصورة مع الكلام اللي تحتها */}
+                  <div className="absolute bottom-0 left-0 w-full h-20 md:h-28 bg-gradient-to-t from-zinc-900 to-transparent pointer-events-none" />
                 </div>
 
-                <div className="px-5 md:px-7 pb-6 md:pb-8 pt-2 md:pt-3 flex-1 flex flex-col items-center">
-                  <p className="text-pink-400 text-[10px] md:text-xs uppercase tracking-[0.3em] mb-3 md:mb-4 text-center">
+                <div className="px-5 md:px-7 pb-6 md:pb-8 pt-3 md:pt-4 flex-1 flex flex-col items-center bg-zinc-900">
+                  <p className="text-pink-400 text-[10px] md:text-sm uppercase tracking-[0.3em] mb-3 md:mb-4 text-center font-semibold">
                     {selected.date}
                   </p>
 
-                  <div className="flex items-center gap-3 mb-4 md:mb-5 w-full">
-                    <div className="h-px flex-1 bg-gradient-to-r from-pink-500/60 to-transparent" />
-                    <span className="text-pink-400 text-xs md:text-sm">💌</span>
-                    <div className="h-px flex-1 bg-gradient-to-l from-pink-500/60 to-transparent" />
-                  </div>
-
                   <p className="font-serif italic text-zinc-300 text-sm md:text-base leading-relaxed text-center px-2">
-                    "{selected.message}"
+                  {selected.message}
                   </p>
 
-                  <div className="mt-5 md:mt-7 flex justify-center w-full">
+                  <div className="mt-4 md:mt-6 flex justify-center w-full">
                     <button
                       onClick={() => setSelected(null)}
-                      className="relative group inline-flex items-center gap-2 px-6 py-2.5 md:px-8 md:py-3 rounded-full bg-zinc-800 hover:bg-pink-500 border border-zinc-700 hover:border-pink-400 text-zinc-400 hover:text-white text-xs md:text-sm font-medium tracking-wide transition-all duration-300 overflow-hidden"
+                      className="relative group inline-flex items-center gap-2 px-8 py-2.5 md:px-10 md:py-3 rounded-full bg-zinc-800 hover:bg-pink-500 border border-zinc-700 hover:border-pink-400 text-zinc-400 hover:text-white text-xs md:text-sm font-medium tracking-wide transition-all duration-300 overflow-hidden"
                     >
-                      <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12" />
-                      <span className="relative">Close</span>
+                      <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+                      <span className="relative">Close Memory</span>
                       <span className="relative text-sm md:text-base">✕</span>
                     </button>
                   </div>

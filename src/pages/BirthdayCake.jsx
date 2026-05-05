@@ -238,7 +238,7 @@ const GirlyBirthdayCake = () => {
             <span className="text-zinc-100">
               Make a wish,{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-fuchsia-400">
-                Princess
+              Name
               </span>{' '}
               👑
             </span>
@@ -259,7 +259,7 @@ const GirlyBirthdayCake = () => {
           }}
           whileTap={{ scale: 0.95 }}
           onClick={isLit ? handleSurprise : () => setIsLit(true)}
-          className={`relative group inline-flex items-center gap-2 px-10 py-3 md:px-14 md:py-4 rounded-full font-semibold text-base md:text-lg text-white transition-all shadow-xl overflow-hidden ${
+          className={`relative cursor-pointer group inline-flex items-center gap-2 px-10 py-3 md:px-14 md:py-4 rounded-full font-semibold text-base md:text-lg text-white transition-all shadow-xl overflow-hidden ${
             isLit
               ? 'bg-pink-500 hover:bg-pink-400 shadow-pink-900/60'
               : 'bg-amber-500 hover:bg-amber-400 shadow-amber-900/60'
@@ -277,9 +277,9 @@ const GirlyBirthdayCake = () => {
             <motion.button
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }} // تسريع الظهور هنا
+              transition={{ delay: 0.4 }}
               onClick={() => navigate('/letter')}
-              className="relative mt-6 md:mt-7 group flex flex-col items-center gap-1"
+              className="relative mt-6 cursor-pointer md:mt-7 group flex flex-col items-center gap-1"
             >
               <span className="absolute inset-0 rounded-full bg-pink-500 blur-md opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
               <span className="relative text-pink-400 group-hover:text-pink-300 text-xs md:text-sm font-medium tracking-widest uppercase transition-colors duration-300">

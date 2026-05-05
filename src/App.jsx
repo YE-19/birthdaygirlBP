@@ -4,6 +4,9 @@ import BirthdayCake from './pages/BirthdayCake'
 import Home from './pages/Home'
 import Letter from './pages/Letter'
 import Memories from './pages/Memories'
+import Video from './pages/Video'
+
+
 
 
 function App() {
@@ -12,9 +15,11 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/BirthdayCake' element={<BirthdayCake/>}/>
-        <Route path='/letter' element={<Letter/>}/>
-        <Route path='/memories' element={<Memories/>}/>
+        <Route path='/BirthdayCake' element={<BirthdayCake />}/>
+        <Route path='/letter' element={<Letter />}/>
+        <Route path='/memories' element={<Memories />}/>
+        <Route path='/vid' element={<Video />}/>
+
       </Routes>
     </>
   )

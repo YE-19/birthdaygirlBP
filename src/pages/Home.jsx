@@ -125,7 +125,6 @@ const Home = () => {
           <div className="h-px w-10 md:w-14 bg-gradient-to-l from-transparent to-zinc-600" />
         </motion.div>
 
-        {/* الجملة اللي تحت - اتسرعت زي ما طلبت */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -135,7 +134,7 @@ const Home = () => {
           "Today is a day as beautiful as you are. I've prepared a little digital
           surprise to celebrate your special moment."
         </motion.p>
-
+        
         <motion.button
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -146,7 +145,7 @@ const Home = () => {
           }}
           whileTap={{ scale: 0.96 }}
           onClick={() => navigate('/BirthdayCake')}
-          className="relative group inline-flex items-center gap-2 md:gap-3 bg-pink-500 hover:bg-pink-400 text-white px-8 md:px-12 py-3 md:py-4 rounded-full font-semibold text-sm md:text-base tracking-wide transition-all duration-300 shadow-lg shadow-pink-500/30 overflow-hidden"
+          className="relative group inline-flex cursor-pointer items-center gap-2 md:gap-3 bg-pink-500 hover:bg-pink-400 text-white px-8 md:px-12 py-3 md:py-4 rounded-full font-semibold text-sm md:text-base tracking-wide transition-all duration-300 shadow-lg shadow-pink-500/30 overflow-hidden"
         >
           <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
           <span className="relative">Open Your Surprise</span>

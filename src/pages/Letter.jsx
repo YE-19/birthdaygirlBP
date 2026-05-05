@@ -7,12 +7,11 @@ const Letter = () => {
   const navigate = useNavigate();
 
   return (
-    // منع السكرول تماماً
-    <div className="fixed inset-0 h-[100dvh] w-full flex items-center justify-center bg-zinc-950 overflow-hidden p-4 touch-none">
+    // تم إزالة touch-none للسماح بالسكرول
+    <div className="fixed inset-0 h-[100dvh] w-full flex items-center justify-center bg-zinc-950 overflow-hidden p-4">
 
       {/* ── Ambient Glow Orbs ── */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* تقليل الـ blur على الموبايل */}
         <div className="absolute top-[-12%] right-[-6%] w-80 h-80 md:w-96 md:h-96 bg-pink-600 rounded-full blur-[70px] md:blur-[140px] opacity-15" />
         <div className="absolute bottom-[-12%] left-[-6%] w-80 h-80 md:w-96 md:h-96 bg-fuchsia-700 rounded-full blur-[70px] md:blur-[140px] opacity-15" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-rose-900 rounded-full blur-[80px] md:blur-[160px] opacity-10" />
@@ -46,7 +45,6 @@ const Letter = () => {
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: [0, 0.5, 0], y: [0, -(40 + Math.random() * 60)] }}
             transition={{ duration: 5 + Math.random() * 4, repeat: Infinity, delay: Math.random() * 7, ease: 'easeOut' }}
-            // إضافة will-change-transform
             className="absolute rounded-full will-change-transform"
             style={{
               top: `${20 + Math.random() * 70}%`,
@@ -77,7 +75,6 @@ const Letter = () => {
           >
             <div className="absolute inset-0 rounded-2xl bg-pink-500 blur-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-700 scale-110" />
 
-            {/* تصغير الظرف للموبايل لتجنب خروجه عن الشاشة */}
             <div className="relative w-72 sm:w-80 md:w-96 h-48 md:h-60 rounded-b-2xl border border-zinc-700 group-hover:border-pink-500/60 transition-colors duration-500 overflow-hidden shadow-2xl shadow-black/60">
 
               <div className="absolute inset-0 bg-zinc-900" />
@@ -130,16 +127,28 @@ const Letter = () => {
             initial={{ y: 60, opacity: 0, scale: 0.93 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             transition={{ duration: 0.85, ease: 'easeOut', delay: 0.2 }}
-            // تصغير العرض الأقصى عشان يناسب الشاشات
-            className="relative z-50 w-full max-w-[90%] md:max-w-2xl"
+            // تمت إضافة max-h-[90vh] لمنع خروج الرسالة عن الشاشة
+            className="relative z-50 w-full max-w-[90%] md:max-w-2xl max-h-[90vh] flex flex-col"
           >
             <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-pink-500/30 via-fuchsia-500/10 to-rose-500/30 blur-sm" />
 
-            <div className="relative bg-zinc-900 border border-zinc-700/80 rounded-2xl overflow-hidden shadow-2xl shadow-black/70">
-              <div className="w-full h-[3px] bg-gradient-to-r from-fuchsia-500 via-pink-400 to-rose-500" />
+            {/* تم تحويل هذا الجزء لـ flex-col ليتحكم في السكرول الداخلي */}
+            <div className="relative bg-zinc-900 border border-zinc-700/80 rounded-2xl flex flex-col h-full max-h-[90vh] overflow-hidden shadow-2xl shadow-black/70">
+              
+              {/* الشريط العلوي */}
+              <div className="w-full h-[3px] bg-gradient-to-r from-fuchsia-500 via-pink-400 to-rose-500 flex-shrink-0" />
 
-              {/* تصغير الـ Padding في الموبايل */}
-              <div className="px-5 sm:px-8 md:px-14 py-8 md:py-14">
+              {/* 
+                 هنا تم إضافة خصائص السكرول: overflow-y-auto 
+                 وتم إضافة كلاسات لتجميل شكل الـ Scrollbar ليتناسب مع ألوانك 
+              */}
+              <div className="px-5 sm:px-8 md:px-14 py-8 md:py-14 overflow-y-auto overflow-x-hidden
+                [&::-webkit-scrollbar]:w-2
+                [&::-webkit-scrollbar-track]:bg-transparent
+                [&::-webkit-scrollbar-thumb]:bg-pink-500/30
+                [&::-webkit-scrollbar-thumb]:rounded-full
+                hover:[&::-webkit-scrollbar-thumb]:bg-pink-500/50"
+              >
 
                 <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-10">
                   <div className="flex-1 h-px bg-gradient-to-r from-pink-500/60 to-transparent" />
@@ -151,9 +160,8 @@ const Letter = () => {
                   To my favorite person,
                 </h3>
 
-                {/* تصغير حجم الخطوط للموبايل */}
                 <div className="font-serif italic space-y-4 md:space-y-5 text-zinc-400 text-sm md:text-lg leading-relaxed text-center md:text-left">
-                  <p>
+                <p>
                     I wanted to take a moment on your special day to tell you how much you
                     mean to me. You bring so much joy and light into my life every single day.
                   </p>
@@ -174,7 +182,7 @@ const Letter = () => {
                     With all my love,
                   </span>
                   <span className="font-serif italic text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-fuchsia-400">
-                    Menna ✨
+                   Name ✨
                   </span>
                 </div>
 
@@ -182,11 +190,11 @@ const Letter = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.5 }}
-                  className="pt-6 md:pt-10 flex justify-center"
+                  className="pt-6 md:pt-10 flex justify-center pb-4"
                 >
                   <button
                     onClick={() => navigate('/memories')}
-                    className="relative group inline-flex items-center gap-2 md:gap-3 bg-pink-500 hover:bg-pink-400 text-white px-8 py-3 md:px-10 md:py-4 rounded-full font-semibold text-sm md:text-base tracking-wide transition-all duration-300 shadow-lg shadow-pink-900/50 overflow-hidden"
+                    className="relative group inline-flex items-center cursor-pointer gap-2 md:gap-3 bg-pink-500 hover:bg-pink-400 text-white px-8 py-3 md:px-10 md:py-4 rounded-full font-semibold text-sm md:text-base tracking-wide transition-all duration-300 shadow-lg shadow-pink-900/50 overflow-hidden"
                     style={{ boxShadow: '0 0 0 0 rgba(236,72,153,0.4)' }}
                     onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 28px rgba(236,72,153,0.45)'}
                     onMouseLeave={e => e.currentTarget.style.boxShadow = '0 0 0 0 rgba(236,72,153,0.4)'}
@@ -199,7 +207,8 @@ const Letter = () => {
 
               </div>
 
-              <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-pink-500/40 to-transparent" />
+              {/* الشريط السفلي */}
+              <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-pink-500/40 to-transparent flex-shrink-0" />
             </div>
           </motion.div>
         )}
